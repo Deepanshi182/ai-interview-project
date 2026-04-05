@@ -1,7 +1,7 @@
 from app.rag.chunking import chunk_text
 from app.rag.embeddings import get_embeddings
 from app.rag.retriever import VectorStore
-
+from app.store.session_store import INTERVIEW_SESSION
 vector_store = None
 
 def process_resume(text):
@@ -40,5 +40,14 @@ def generate_questions_from_resume(query="Generate interview questions"):
         print("Context:", context)
 
     result = llm_service.generate_questions(context)
+
+    for category in ["technical", "hr", "project"]:
+        for q in result.get(category, []):
+            INTERVIEW_SESSION[q["question"]] = {
+                "expected_answer": q.get("expected_answer", ""),
+                "category": category,
+                "difficulty": q.get("difficulty", ""),
+                "topic": q.get("topic", "")
+            }   
 
     return result

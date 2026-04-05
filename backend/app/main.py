@@ -19,3 +19,9 @@ def test():
 
 from app.api import questions
 app.include_router(questions.router)
+
+from app.api import speech
+app.include_router(speech.router)
+
+from app.api import evaluate
+app.include_router(evaluate.router)
