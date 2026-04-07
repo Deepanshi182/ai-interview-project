@@ -1,3 +1,7 @@
+from app.utils.runtime_install import install_heavy
+
+install_heavy()
+
 from fastapi import FastAPI
 from app.api import resume
 from fastapi.middleware.cors import CORSMiddleware
