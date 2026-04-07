@@ -20,10 +20,10 @@ def home():
 
 from app.services.rag_service import retrieve_context
 
-@app.get("/test-retrieval")
-def test():
-    result = retrieve_context("What are his skills?")
-    return {"result": result}
+# @app.get("/test-retrieval")
+# def test():
+#     result = retrieve_context("What are his skills?")
+#     return {"result": result}
 
 from app.api import questions
 app.include_router(questions.router)
