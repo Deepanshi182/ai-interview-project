@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Upload as UploadIcon, FileText, CheckCircle } from "lucide-react";
 import API, { checkResumeLimit, incrementResumeUpload } from "../services/api";
 import { AppContext } from "../context/AppContext";
-import Navbar from "../components/Navbar";
+
 
 function Upload() {
   const [file, setFile] = useState(null);
@@ -111,7 +111,6 @@ function Upload() {
 
   return (
     <>
-      <Navbar />
       <div className="min-h-screen flex items-center justify-center">
         <div className="max-w-4xl mx-auto px-4 md:px-6 py-6 w-full">
           <div className="text-center mb-6 md:mb-8">

@@ -2,7 +2,6 @@ import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import API, { checkAttemptLimit } from "../services/api";
-import Navbar from "../components/Navbar";
 import { Mic, Square, Loader2, ArrowLeft } from "lucide-react";
 
 function Interview() {
@@ -141,7 +140,6 @@ function Interview() {
 
   return (
     <>
-      <Navbar />
       <div className="min-h-screen">
         <div className="max-w-4xl mx-auto px-4 md:px-6 py-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">

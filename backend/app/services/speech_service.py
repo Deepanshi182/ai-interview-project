@@ -24,30 +24,37 @@ import os
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 def speech_to_text(audio_bytes):
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".webm") as temp_audio:
-        temp_audio.write(audio_bytes)
-        temp_audio_path = temp_audio.name
+    temp_audio_path = None
 
-    url = "https://api.groq.com/openai/v1/audio/transcriptions"
+    try:
+        # create temp file
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".webm") as temp_audio:
+            temp_audio.write(audio_bytes)
+            temp_audio_path = temp_audio.name
 
-    headers = {
-        "Authorization": f"Bearer {GROQ_API_KEY}"
-    }
+        url = "https://api.groq.com/openai/v1/audio/transcriptions"
 
-    files = {
-        "file": ("audio.webm", open(temp_audio_path, "rb"), "audio/webm")
-    }
+        headers = {
+            "Authorization": f"Bearer {GROQ_API_KEY}"
+        }
 
-    data = {
-        "model": "whisper-large-v3",
-        "language": "en",
-        "temperature": 0
-    }
-    
-    response = requests.post(url, headers=headers, files=files, data=data)
+        data = {
+            "model": "whisper-large-v3",
+            "language": "en",
+            "temperature": 0
+        }
 
-    os.remove(temp_audio_path)
+        # 🔥 IMPORTANT: file properly close hoga after this block
+        with open(temp_audio_path, "rb") as audio_file:
+            files = {
+                "file": ("audio.webm", audio_file, "audio/webm")
+            }
 
-    print("API Response:", response.json())  # 🔥 DEBUG
+            response = requests.post(url, headers=headers, files=files, data=data)
 
-    return response.json().get("text", "No transcription found")
+        return response.json().get("text", "No transcription found")
+
+    finally:
+        # 🔥 safe delete
+        if temp_audio_path and os.path.exists(temp_audio_path):
+            os.remove(temp_audio_path)

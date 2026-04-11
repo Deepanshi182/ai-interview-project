@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { AppProvider } from "./context/AppContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Layout from "./components/Layout";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Upload from "./pages/Upload";
@@ -9,6 +10,7 @@ import Questions from "./pages/Questions";
 import Interview from "./pages/Interview";
 import Result from "./pages/Result";
 import Dashboard from "./pages/Dashboard";
+import About from "./pages/About";
 
 function App() {
   return (
@@ -23,7 +25,9 @@ function App() {
                 path="/"
                 element={
                   <ProtectedRoute>
-                    <Upload />
+                    <Layout>
+                      <Upload />
+                    </Layout>
                   </ProtectedRoute>
                 }
               />
@@ -31,7 +35,9 @@ function App() {
                 path="/questions"
                 element={
                   <ProtectedRoute>
-                    <Questions />
+                    <Layout>
+                      <Questions />
+                    </Layout>
                   </ProtectedRoute>
                 }
               />
@@ -39,7 +45,9 @@ function App() {
                 path="/interview"
                 element={
                   <ProtectedRoute>
-                    <Interview />
+                    <Layout>
+                      <Interview />
+                    </Layout>
                   </ProtectedRoute>
                 }
               />
@@ -47,7 +55,9 @@ function App() {
                 path="/result"
                 element={
                   <ProtectedRoute>
-                    <Result />
+                    <Layout>
+                      <Result />
+                    </Layout>
                   </ProtectedRoute>
                 }
               />
@@ -55,8 +65,18 @@ function App() {
                 path="/dashboard"
                 element={
                   <ProtectedRoute>
-                    <Dashboard />
+                    <Layout>
+                      <Dashboard />
+                    </Layout>
                   </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/about"
+                element={
+                  <Layout>
+                    <About />
+                  </Layout>
                 }
               />
               <Route path="*" element={<Navigate to="/" replace />} />

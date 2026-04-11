@@ -42,23 +42,6 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <nav className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col sm:flex-row justify-between items-center h-auto sm:h-16 py-3 sm:py-0 gap-2 sm:gap-4">
-            <h1 className="text-lg md:text-xl font-bold">AI Interview Copilot</h1>
-            <div className="flex items-center gap-2 sm:gap-4">
-              <span className="text-sm md:text-base text-gray-700">Welcome, {user?.name}</span>
-              <button
-                onClick={handleLogout}
-                className="flex items-center gap-2 px-3 py-2 text-sm md:text-base text-gray-700 hover:text-black transition"
-              >
-                <LogOut size={18} />
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
 
       <div className="max-w-7xl mx-auto px-4 py-6 md:py-8">
         <div className="mb-6 md:mb-8">

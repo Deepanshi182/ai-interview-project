@@ -3,7 +3,6 @@ import { AppContext } from "../context/AppContext";
 import API from "../services/api";
 import { useNavigate } from "react-router-dom";
 import QuestionCard from "../components/QuestionCard";
-import Navbar from "../components/Navbar";
 import { Loader2 } from "lucide-react";
 
 function Questions() {
@@ -71,7 +70,6 @@ function Questions() {
 
   return (
     <>
-      <Navbar />
       <div className="min-h-screen">
         <div className="max-w-4xl mx-auto px-4 md:px-6 py-6">
           <div className="mb-6">

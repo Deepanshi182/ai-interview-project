@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import ScoreCard from "../components/ScoreCard";
-import Navbar from "../components/Navbar";
 import { saveAttempt } from "../services/api";
 import { Home, CheckCircle, AlertCircle, Lightbulb, FileText, LayoutDashboard } from "lucide-react";
 
@@ -10,6 +9,7 @@ function Result() {
   const { result, selectedQuestion, resetState, currentAttemptId, markQuestionCompleted } = useContext(AppContext);
   const navigate = useNavigate();
   const [saved, setSaved] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (result && selectedQuestion && !saved && currentAttemptId) {
@@ -18,6 +18,18 @@ function Result() {
   }, [result, selectedQuestion, saved, currentAttemptId]);
 
   const saveAttemptToBackend = async () => {
+    // 🔥 Step 1: check complete data
+    if (!result.transcript || !result.feedback) {
+      setErrorMessage("Processing not complete yet. Please wait...");
+      return;
+    }
+
+    // 🔥 Step 2: check short/invalid answer
+    if (!result.transcript.trim() || result.transcript.trim().length < 5) {
+      setErrorMessage("Your answer is too short. Please try again.");
+      return;
+    }
+
     try {
       await saveAttempt({
         question: selectedQuestion.question,
@@ -26,10 +38,12 @@ function Result() {
         feedback: result.feedback,
         attemptId: currentAttemptId
       });
+
       setSaved(true);
       markQuestionCompleted(selectedQuestion.question);
+
     } catch (error) {
-      console.error('Error saving attempt:', error);
+      setErrorMessage("Failed to save attempt. Please try again.");
     }
   };
 
@@ -58,7 +72,6 @@ function Result() {
 
   return (
     <>
-      <Navbar />
       <div className="min-h-screen">
         <div className="max-w-4xl mx-auto px-4 md:px-6 py-6">
           <div className="mb-6">
@@ -71,6 +84,11 @@ function Result() {
           </div>
 
           <div className="space-y-4 md:space-y-6">
+            {errorMessage && (
+              <div className="bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded-lg">
+                {errorMessage}
+              </div>
+            )}
             <ScoreCard score={evaluation?.score || 0} breakdown={evaluation?.breakdown} />
 
             {transcript && (
