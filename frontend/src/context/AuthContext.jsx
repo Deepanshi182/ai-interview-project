@@ -1,6 +1,8 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const AuthContext = createContext();
 
 export const useAuth = () => {
@@ -27,7 +29,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUser = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/auth/me');
+      const response = await axios.get(`${BASE_URL}/auth/me`);
       setUser(response.data.data);
     } catch (error) {
       console.error('Error fetching user:', error);
@@ -38,29 +40,35 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (email, password) => {
-    const response = await axios.post('http://localhost:5000/api/auth/login', {
+    const response = await axios.post(`${BASE_URL}/auth/login`, {
       email,
       password
     });
+
     const { token: newToken, user: userData } = response.data;
+
     localStorage.setItem('token', newToken);
     setToken(newToken);
     setUser(userData);
     axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+
     return response.data;
   };
 
   const signup = async (name, email, password) => {
-    const response = await axios.post('http://localhost:5000/api/auth/signup', {
+    const response = await axios.post(`${BASE_URL}/auth/signup`, {
       name,
       email,
       password
     });
+
     const { token: newToken, user: userData } = response.data;
+
     localStorage.setItem('token', newToken);
     setToken(newToken);
     setUser(userData);
     axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+
     return response.data;
   };
 

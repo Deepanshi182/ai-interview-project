@@ -1,13 +1,14 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:8000"
+  baseURL: import.meta.env.VITE_MAIN_API_URL
 });
 
 const AUTH_API = axios.create({
-  baseURL: "http://localhost:5000/api"
+  baseURL: import.meta.env.VITE_API_BASE_URL
 });
 
+// Token interceptor
 AUTH_API.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
@@ -16,6 +17,7 @@ AUTH_API.interceptors.request.use((config) => {
   return config;
 });
 
+// APIs
 export const checkAttemptLimit = async () => {
   const response = await AUTH_API.get('/limit/check-attempt');
   return response.data;
