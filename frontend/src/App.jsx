@@ -79,7 +79,7 @@ function App() {
                   </Layout>
                 }
               />
-              <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path="*" element={<h1>404 Page Not Found</h1>} />
             </Routes>
           </div>
         </AppProvider>
