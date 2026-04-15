@@ -46,9 +46,7 @@ X_scaled = scaler.fit_transform(X)
 model = GradientBoostingRegressor(n_estimators=150)
 model.fit(X_scaled, y)
 
-# =========================
-# 💾 SAVE MODEL (IMPORTANT FIX)
-# =========================
+# SAVE MODEL (IMPORTANT FIX)
 model_path = os.path.join(BASE_DIR, "model.pkl")
 scaler_path = os.path.join(BASE_DIR, "scaler.pkl")
 
